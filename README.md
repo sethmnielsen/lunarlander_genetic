@@ -1,7 +1,7 @@
 # lunarlander_genetic
 This was inspired by the [Deep Neuroevolution paper](https://arxiv.org/abs/1712.06567) by Such et. al. It was a project for my CS 674 Advanced Deep Learning course at BYU in which I wanted to dive further into deep reinforcement learning.
 
-
+![Real results from GA agent playing](media/lunarlander_play.gif)
 
 As a robotics engineer, I have come across many optimization problems and the methods used to solve them. I had a basic understanding of how a genetic algorithm works from coding up a simple optimization problem in a previous class, but the problem was simple, so I didn't feel like I had a real sense for using GAs yet. So I thought that implementing a genetic algorithm for training a neural network in reinforcement learning would be a great way to understand both concepts more intimately. For some reason, I felt that the learning curve wasn't steep enough yet, which birthed the impulse to code it in Rust. I am a huge fan and proponent of Rust, but it isn't exactly known for its machine learning libraries like Python! In the end, the odds were ever in my favor, and I found [`tch-rs`](https://github.com/LaurentMazare/tch-rs) - an incredibly well-polished Rust library providing bindings to the C++ API of PyTorch by [LaurentMazare](https://github.com/LaurentMazare). With that, my Rust impulse went from a "maybe some day" goal to a "LET'S DO THIS!!" goal.
 
