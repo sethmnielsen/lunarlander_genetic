@@ -2,17 +2,17 @@
 use super::gym_env::GymEnv;
 use tch::kind::*;
 use tch::{nn, Device, Kind::Float, Tensor, IndexOp, nn::Path};
-use std::time::Duration;
-use std::thread;
+// use std::time::Duration;
+// use std::thread;
 
 const ENV_NAME: &'static str = "LunarLanderContinuous-v2";
 
-const INT_TYPE: (tch::Kind, Device) = INT64_CPU;
-const FLOAT_TYPE: (tch::Kind, Device) = FLOAT_CPU;
-const DEVICE: Device = Device::Cpu;
-// const INT_TYPE: (tch::Kind, Device) = INT64_CUDA;
-// const FLOAT_TYPE: (tch::Kind, Device) = FLOAT_CUDA;
-// const DEVICE: Device = Device::Cuda(0);
+// const INT_TYPE: (tch::Kind, Device) = INT64_CPU;
+// const FLOAT_TYPE: (tch::Kind, Device) = FLOAT_CPU;
+// const DEVICE: Device = Device::Cpu;
+const INT_TYPE: (tch::Kind, Device) = INT64_CUDA;
+const FLOAT_TYPE: (tch::Kind, Device) = FLOAT_CUDA;
+const DEVICE: Device = Device::Cuda(0);
 
 const SAVE_INDEX: i64 = 8;
 
@@ -20,9 +20,9 @@ const SAVE_INDEX: i64 = 8;
 // const LOAD_EPOCH: i64 = 1049;
 // const MINFIT: bool = false;
 
-const LOAD_INDEX: i64 = 0;
-const LOAD_EPOCH: i64 = 2049;
-const MINFIT: bool = false;
+const LOAD_INDEX: i64 = 7;
+const LOAD_EPOCH: i64 = 350;
+const MINFIT: bool = true;
 
 const LOAD_VS: bool = true;
 
@@ -167,8 +167,8 @@ impl Population {
     /// and copy top individuals into self.top_individuals.
     fn compute_fitness_and_reorder(&mut self) {
         // Compute fitness -- not ordered yet
-        self.fitness = self.rewards.mean1(&[1], false, Float);
-        self.min_fitness = self.rewards.min2(1, false).0;
+        self.fitness = self.rewards.mean_dim(&[1], false, Float);
+        self.min_fitness = self.rewards.min_dim(1, false).0;
 
         // find highest SELECTION_TOP fitness scores and save the (values, indices)
         let top_vals_idxs = self.min_fitness.topk(SELECTION_TOP, 0, true, true);
@@ -196,7 +196,7 @@ impl Population {
     /// and add the noise to all, then copy mutated top individuals into self.individuals.
     fn mutate_population(&mut self) {
         self.noise = self.noise.normal_(0., 1.);
-        self.thetas_to_mutate = self.thetas_to_mutate.random_1(SELECTION_TOP);
+        self.thetas_to_mutate = self.thetas_to_mutate.random_to_(SELECTION_TOP);
         self.individuals.i(1..).copy_(&(self.top_individuals.i(&self.thetas_to_mutate) + &self.noise*MUTATION_POWER));
     }
 }
