@@ -5,7 +5,7 @@ use tch::{nn, Device, Kind::Float, Tensor, IndexOp, nn::Path};
 // use std::time::Duration;
 // use std::thread;
 
-const ENV_NAME: &'static str = "LunarLanderContinuous-v2";
+const ENV_NAME: &'static str = "LunarLander-v2";
 
 // const INT_TYPE: (tch::Kind, Device) = INT64_CPU;
 // const FLOAT_TYPE: (tch::Kind, Device) = FLOAT_CPU;

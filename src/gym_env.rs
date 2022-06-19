@@ -1,5 +1,5 @@
 //! Wrappers around the Python API of the OpenAI gym.
-use cpython::{NoArgs, ObjectProtocol, PyObject, PyResult, Python, ToPyObject};
+use cpython::{NoArgs, ObjectProtocol, PyObject, PyResult, Python, ToPyObject, PyDict};
 use tch::Tensor;
 
 /// The return value for a step.
@@ -31,8 +31,12 @@ impl GymEnv {
         let gil = Python::acquire_gil();
         let py = gil.python();
         let gym = py.import("gym")?;
-        let env = gym.call(py, "make", (name,), None)?;
-        let _ = env.call_method(py, "seed", (42,), None)?;
+        let env_kwargs = PyDict::new(py);
+        env_kwargs.set_item(py, "continuous", true)?;
+        let env = gym.call(py, "make", (name,), Some(&env_kwargs))?;
+        let reset_kwargs = PyDict::new(py);
+        reset_kwargs.set_item(py, "seed", 42i32)?;
+        let _ = env.call_method(py, "reset", NoArgs, Some(&reset_kwargs));
         let action_space = env.getattr(py, "action_space")?;
         let action_space = if let Ok(val) = action_space.getattr(py, "n") {
             val.extract(py)?

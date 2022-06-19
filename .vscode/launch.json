@@ -1,0 +1,55 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'lunarlander_genetic'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=lunarlander_genetic",
+                    "--package=lunarlander_genetic"
+                ],
+                "filter": {
+                    "name": "lunarlander_genetic",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "LIBTORCH": "/home/seth/packages/libtorch",
+                "LD_LIBRARY_PATH": "/home/seth/packages/libtorch/lib:${env:LD_LIBRARY_PATH}",
+                // "VIRTUAL_ENV": "/home/seth/.virtualenvs/pytorch",
+                // "PATH": "/home/seth/.virtualenvs/pytorch/bin:${env:PATH}"
+            },
+            "sourceLanguages": ["rust"],
+            // "preRunCommands": [
+            //     "source /home/seth/.virtualenvs/pytorch/bin/activate"
+            // ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'lunarlander_genetic'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=lunarlander_genetic",
+                    "--package=lunarlander_genetic"
+                ],
+                "filter": {
+                    "name": "lunarlander_genetic",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
